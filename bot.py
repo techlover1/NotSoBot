@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from utils import checks
 from utils.funcs import Funcs
+import config
 
 #Discord Code Block Formats
 code = "```py\n{0}\n```"
@@ -46,7 +47,7 @@ def init_funcs(bot):
 		db = 'discord_self'
 	else:
 		db = 'discord'
-	engine = create_engine('mysql+pymysql://{0}:@localhost/{1}?charset=utf8mb4'.format(bot.shard_id if not bot.self_bot else '', db), encoding='utf8')
+	engine = create_engine('mysql+pymysql://' + config.db_user + ':' + config.db_pw + '@localhost/notso?charset=utf8mb4', encoding='utf8')
 	session_factory = sessionmaker(bind=engine)
 	Session = scoped_session(session_factory)
 	bot.mysql = Object()
@@ -118,7 +119,7 @@ class NotSoBot(commands.Bot):
 		self.loop = kwargs.pop('loop', asyncio.get_event_loop())
 		asyncio.get_child_watcher().attach_loop(self.loop)
 		self.dev_mode = kwargs.pop('dev_mode', False)
-		self.token = os.getenv('bot_token') if not self.dev_mode else os.getenv('bot_beta_token')
+		self.token = config.token
 		self.self_bot = kwargs.pop('self_bot', False)
 		if self.self_bot:
 			self.token = os.getenv('notsosuper_token')
