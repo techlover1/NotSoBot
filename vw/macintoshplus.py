@@ -32,7 +32,8 @@ japanese_corpus = '''それは20年前の今日だった
 唯一無二のビリー·シアーズ
 そして、サージェント·ペパーズ·ロンリー·ハーツ·クラブ·バンド'''.split('\n')
 
-main_dir = str(__file__)[:17]
+main_dir = str(__file__)[:25]
+print('MAIN DIR: ' + main_dir)
 bubbles = [main_dir+'img/png/bubbles/' + i for i in os.listdir(main_dir+'img/png/bubbles/') if i != 'Thumbs.db']
 windows = [main_dir+'img/png/windows/' + i for i in os.listdir(main_dir+'img/png/windows/') if i != 'Thumbs.db']
 backgrounds = [main_dir+'img/png/background/' + i for i in os.listdir(main_dir+'img/png/background/') if i != 'Thumbs.db']

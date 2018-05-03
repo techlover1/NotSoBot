@@ -11,23 +11,23 @@ class Logging(Cog):
 		super().__init__(bot)
 		self.cursor = bot.mysql.cursor
 
-	async def on_message(self, message):
-		if message.author == self.bot.user:
-			return
+	#async def on_message(self, message):
+		#if message.author == self.bot.user:
+			#return
 		#sql = "INSERT INTO `messages` (`shard`, `server`, `server_name`, `channel`, `channel_name`, `user`, `user_id`, `message_id`, `action`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-		is_pm = True if message.channel.is_private else None
-		server = message.server.id if not is_pm else None
-		server_name = message.server.name if not is_pm else 'Private Message'
-		channel = message.channel.id if not is_pm else None
-		channel_name = message.channel.name if not is_pm else None
-		user = str(message.author)
-		user_id = message.author.id
-		message_id = message.id
-		action = 0
-		sql = "INSERT INTO `messages` (`shard`, `server`, `server_name`, `channel`, `channel_name`, `user`, `user_id`, `message_id`, `action`) VALUES (" + str(self.bot.shard_id) + ", " + str(server) + ", " + server_name + ", " + str(channel) + ", " + channel_name + ", " + user + ", " + str(user_id) + ", " + str(message_id) + ", " + str(action) + ")"
-		print("PRINT" + sql)
-		self.cursor.execute(sql, (self.bot.shard_id, server, server_name, channel, channel_name, user, user_id, message_id, action))
-		self.cursor.commit()
+		#is_pm = True if message.channel.is_private else None
+		#server = message.server.id if not is_pm else None
+		#server_name = message.server.name if not is_pm else 'Private Message'
+		#channel = message.channel.id if not is_pm else None
+		#channel_name = message.channel.name if not is_pm else None
+		#user = str(message.author)
+		#user_id = message.author.id
+		#message_id = message.id
+		#action = 0
+		#sql = "INSERT INTO `messages` (`shard`, `server`, `server_name`, `channel`, `channel_name`, `user`, `user_id`, `message_id`, `action`) VALUES (" + str(self.bot.shard_id) + ", " + str(server) + ", " + server_name + ", " + str(channel) + ", " + channel_name + ", " + user + ", " + str(user_id) + ", " + str(message_id) + ", " + str(action) + ")"
+		#print("PRINT" + sql)
+		#self.cursor.execute(sql, (self.bot.shard_id, server, server_name, channel, channel_name, user, user_id, message_id, action))
+		#self.cursor.commit()
 		# print("({0} <{1}>) {2} <{3}> | {4} <{5}> | {6}".format(server_name, server, channel_name, channel, user, user_id, message.clean_content))
 
 	async def on_message_edit(self, before, after):

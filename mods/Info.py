@@ -1,7 +1,7 @@
 import asyncio
 import time
 import steam
-import steamapi
+#import steamapi
 import discord
 import datetime
 import texttable
@@ -154,66 +154,66 @@ class Info(Cog):
 		await self.bot.say(":clock4: Online for{0}".format(msg))
 
 	#https://github.com/notcake/hal9000.plugins.private/tree/master/steamapi
-	steamapi.core.APIConnection(api_key="")
-	@commands.command(pass_context=True)
-	async def steam(self, ctx, stem:str):
-		"""Returns Steam information of inputed SteamID/Custom URL/Etc"""
-		try:
-			steamId = None
-			steamProfile = None
-			if steamId is None: 
-				steamId = SteamId.fromSteamId("{0}".format(stem))
-			if steamId is None: 
-				steamId = SteamId.fromSteamId3(stem)
-			if steamId is None: 
-				steamId = SteamId.fromSteamId64(stem)
-			if steamId is None: 
-				steamId = SteamId.fromProfileUrl(stem)
-			if steamId is None: 
-				steamProfile = SteamProfile.fromCustomProfileUrl(stem)
-				if steamProfile is None:
-					await self.bot.say("bad steam id")
-					return
-				steamId = steamProfile.steamId
-			else:
-				steamProfile = SteamProfile.fromSteamId(steamId)
-			msg = ""
-			if steamProfile is not None and \
-				steamProfile.displayName is not None:
-					msg += "Username: " + steamProfile.displayName + "\n"
-			steam_user = steamapi.user.SteamUser(steamId.steamId64)
-			if steam_user.state == 0:
-				msg += "Status: Offline\n"
-			elif steam_user.state == 1:
-				msg += "Status: Online\n"
-			elif steam_user.state == 2:
-				msg += "Status: Busy\n"
-			elif steam_user.state == 3:
-				msg += "Status: Away\n"
-			elif steam_user.state == 4:
-				msg += "Status: Snooze\n"
-			elif steam_user.state == 5:
-				msg += "Status: Looking to Trade\n"
-			elif steam_user.state == 6:
-				msg += "Status: Looking to Play\n"
-			msg += "Avatar: \"{0}\"\n".format(str(steam_user.avatar_full))
-			if steam_user.level != None:
-				msg += "Level: {0}\n".format(str(steam_user.level))
-			if steam_user.currently_playing != None:
-				msg += "Currently Playing: {0}\n".format(str(steam_user.currently_playing))
-			elif steam_user.recently_played != []:
-				msg += "Recently Played: {0}\n".format(str(steam_user.recently_played).replace("<SteamApp ", "").replace(">", "").replace("[", "").replace("]", ""))
-			msg += "Created: {0}\n".format(str(steam_user.time_created))
-			msg += "Steam ID: " + steamId.steamId + "\n"
-			msg += "Steam ID 64: " + str(steamId.steamId64) + "\n"
-			msg += "Permanent Link: \"" + steamId.profileUrl + "\"\n"
-			if steamProfile != None and \
-				steamProfile.customProfileUrl != None:
-					msg += "Link: \"" + steamProfile.customProfileUrl + "\"\n"
-			msg = msg.replace("'", "′")
-			await self.bot.say(cool.format(msg))
-		except Exception as e:
-			await self.bot.say(code.format(type(e).__name__ + ': ' + str(e)))
+	#steamapi.core.APIConnection(api_key="")
+	#@commands.command(pass_context=True)
+	#async def steam(self, ctx, stem:str):
+		#"""Returns Steam information of inputed SteamID/Custom URL/Etc"""
+		#try:
+			#steamId = None
+			#steamProfile = None
+			#if steamId is None: 
+				#steamId = SteamId.fromSteamId("{0}".format(stem))
+			#if steamId is None: 
+				#steamId = SteamId.fromSteamId3(stem)
+			#if steamId is None: 
+			#	steamId = SteamId.fromSteamId64(stem)
+			#if steamId is None: 
+			#	steamId = SteamId.fromProfileUrl(stem)
+			#if steamId is None: 
+			#	steamProfile = SteamProfile.fromCustomProfileUrl(stem)
+			#	if steamProfile is None:
+			#		await self.bot.say("bad steam id")
+			#		return
+			#	steamId = steamProfile.steamId
+			#else:
+			#	steamProfile = SteamProfile.fromSteamId(steamId)
+			#msg = ""
+			#if steamProfile is not None and \
+			#	steamProfile.displayName is not None:
+			#		msg += "Username: " + steamProfile.displayName + "\n"
+			#steam_user = steamapi.user.SteamUser(steamId.steamId64)
+			#if steam_user.state == 0:
+			#	msg += "Status: Offline\n"
+			#elif steam_user.state == 1:
+			#	msg += "Status: Online\n"
+			#elif steam_user.state == 2:
+			#	msg += "Status: Busy\n"
+			#elif steam_user.state == 3:
+			#	msg += "Status: Away\n"
+			#elif steam_user.state == 4:
+			#	msg += "Status: Snooze\n"
+			#elif steam_user.state == 5:
+			#	msg += "Status: Looking to Trade\n"
+			#elif steam_user.state == 6:
+			#	msg += "Status: Looking to Play\n"
+			#msg += "Avatar: \"{0}\"\n".format(str(steam_user.avatar_full))
+			#if steam_user.level != None:
+			#	msg += "Level: {0}\n".format(str(steam_user.level))
+			#if steam_user.currently_playing != None:
+			#	msg += "Currently Playing: {0}\n".format(str(steam_user.currently_playing))
+			#elif steam_user.recently_played != []:
+			#	msg += "Recently Played: {0}\n".format(str(steam_user.recently_played).replace("<SteamApp ", "").replace(">", "").replace("[", "").replace("]", ""))
+			#msg += "Created: {0}\n".format(str(steam_user.time_created))
+			#msg += "Steam ID: " + steamId.steamId + "\n"
+			#msg += "Steam ID 64: " + str(steamId.steamId64) + "\n"
+			#msg += "Permanent Link: \"" + steamId.profileUrl + "\"\n"
+			#if steamProfile != None and \
+			#	steamProfile.customProfileUrl != None:
+			#		msg += "Link: \"" + steamProfile.customProfileUrl + "\"\n"
+			#msg = msg.replace("'", "′")
+			#await self.bot.say(cool.format(msg))
+		#except Exception as e:
+		#	await self.bot.say(code.format(type(e).__name__ + ': ' + str(e)))
 
 	@commands.command(pass_context=True)
 	async def cinfo(self, ctx):

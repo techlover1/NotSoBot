@@ -88,7 +88,7 @@ def init_funcs(bot):
 
 #Bot Cogs
 modules = [
-	'mods.Logging',
+	#'mods.Logging',
 	'mods.Commands',
 	'mods.Moderation',
 	'mods.Utils',
@@ -129,7 +129,7 @@ class NotSoBot(commands.Bot):
 		super().__init__(command_prefix=command_prefix, *args, **kwargs)
 		self.remove_command('help')
 		init_funcs(self)
-		self.owner = None
+		self.owner = config.owner
 		self.start_time = time.time()
 		self.own_task = None
 		self.last_message = None
@@ -156,7 +156,8 @@ class NotSoBot(commands.Bot):
 				msg = '`[Shard {0}]` {1} has <@&211727010932719627>, <@&211727098149076995> since **{2}** for **{3}** second(s) | Current Time: **{4}**.'.format(self.shard_id, self.user.mention, time_msg, downtime, current_time_msg)
 			else:
 				msg = '`[Shard {0}]` {1} is now <@&211726904774885377>, <@&211727098149076995> since **{2}** for **{3}** second(s) | Current Time: **{4}**\nServers: `{5}`'.format(self.shard_id, self.user.mention, time_msg, downtime, current_time_msg, len(self.servers))
-			await self.queue_message('211247117816168449', msg)
+			#await self.queue_message('211247117816168449', msg)
+			#print('MESSAGE: ' + msg)
 			self.globals.on_ready_write = True
 			self.write_last_time()
 			self.globals.already_ready = True
@@ -165,8 +166,8 @@ class NotSoBot(commands.Bot):
 				self.load_extension(cog)
 			except Exception as e:
 				msg = 'Failed to load mod {0}\n{1}: {2}'.format(cog, type(e).__name__, e)
-				await self.queue_message('180073721048989696', '```diff\n! Shard #{0}\n- '.format(self.shard_id)+msg+'\n```')
-				print(msg)
+				#await self.queue_message('180073721048989696', '```diff\n! Shard #{0}\n- '.format(self.shard_id)+msg+'\n```')
+				print('MESSAGE: ' + msg)
 		if self.self_bot:
 			print('------\nSelf Bot\n{0}\n------'.format(self.user))
 		else:
@@ -174,6 +175,7 @@ class NotSoBot(commands.Bot):
 		await self.change_presence(game=discord.Game(name="https://ropestore.org"))
 
 	async def on_message(self, message):
+		#print('MESSAGE RECIEVED(PRE)' + str(message.content))
 		self.last_message = message.timestamp
 		await self.wait_until_ready()
 		if self.globals.on_ready_write:
@@ -184,19 +186,25 @@ class NotSoBot(commands.Bot):
 			else:
 				application_info = await self.application_info()
 				self.owner = application_info.owner
-		if self.dev_mode and message.author != self.owner:
-			return
+		#if self.dev_mode and message.author != self.owner:
+			#print('AUTHOR: ' + message.author)
+			#print('OWNER: ' + self.owner)
+			#return
 		elif self.self_bot and message.author != self.owner:
+			#print('RETURN 1')
 			return
 		elif not self.self_bot and message.author == self.user:
+			#print('RETURN 2')
 			return
 		elif message.author.bot:
+			#print('RETURN 3')
 			return
 		blacklisted = await self.is_blacklisted(message)
 		if blacklisted:
 			return
 		prefix_result = await self.get_prefix(message)
 		prefixes = prefix_result[0]
+		print('PREFIXES: ' + str(prefixes))
 		check = prefix_result[1] if not self.self_bot else True
 		command = None
 		invoker = None

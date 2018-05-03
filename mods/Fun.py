@@ -8,7 +8,7 @@ import numpy as np
 import cairosvg, jpglitch, urbandict
 import pixelsort.sorter, pixelsort.sorting, pixelsort.util, pixelsort.interval
 import hashlib, base64
-from vw import macintoshplus
+#from vw import macintoshplus
 from urllib.parse import parse_qs
 from lxml import etree
 from imgurpython import ImgurClient
@@ -1265,13 +1265,13 @@ class Fun(Cog):
 				elif em == 'steam':
 					steam = True
 			if len(self.twitch_cache) == 0:
-				twitch_images_load = await self.get_json('https://twitchemotes.com/api_cache/v2/images.json')
-				twitch_sub_load = await self.get_json('https://twitchemotes.com/api_cache/v2/subscriber.json')
+				twitch_images_load = await self.get_json('https://twitchemotes.com/api_cache/v3/images.json')
+				#twitch_sub_load = await self.get_json('https://twitchemotes.com/api_cache/v2/subscriber.json')
 				self.twitch_cache.append(twitch_images_load)
-				self.twitch_cache.append(twitch_sub_load)
+				#self.twitch_cache.append(twitch_sub_load)
 			else:
 				twitch_images_load = self.twitch_cache[0]
-				twitch_sub_load = self.twitch_cache[1]
+				#twitch_sub_load = self.twitch_cache[1]
 			list_imgs = []
 			count = -1
 			for em in ems:
@@ -1337,23 +1337,23 @@ class Fun(Cog):
 											url = 'https:'+emote['urls']['1']
 								path = await self.bytes_download(url)
 								break
-					if not found:
-						load = twitch_images_load
-						for emote in load['images']:
-							if load['images'][emote]['code'] == em:
-								found = True
-								url = 'https://static-cdn.jtvnw.net/emoticons/v1/{0}/3.0'.format(emote)
-								path = await self.bytes_download(url)
-								break
-					if not found:
-						load = twitch_sub_load
-						for channel in load['channels']:
-							for emote in load['channels'][channel]['emotes']:
-								if emote['code'] == em:
-									found = True
-									url = 'https://static-cdn.jtvnw.net/emoticons/v1/{0}/3.0'.format(emote)
-									path = await self.bytes_download(url)
-									break
+					#if not found:
+					#	load = twitch_images_load
+					#	for emote in load['images']:
+					#		if load['images'][emote]['code'] == em:
+					#			found = True
+					#			url = 'https://static-cdn.jtvnw.net/emoticons/v1/{0}/3.0'.format(emote)
+					#			path = await self.bytes_download(url)
+					#			break
+					#if not found:
+					#	load = twitch_sub_load
+					#	for channel in load['channels']:
+					#		for emote in load['channels'][channel]['emotes']:
+					#			if emote['code'] == em:
+					#				found = True
+					#				url = 'https://static-cdn.jtvnw.net/emoticons/v1/{0}/3.0'.format(emote)
+					#				path = await self.bytes_download(url)
+					#				break
 					if not found:
 						if em in self.emojis.keys():
 							path = await self.png_svg(await self.get_emote_image(self.emojis[em]), size)
@@ -1568,28 +1568,28 @@ class Fun(Cog):
 	# 	b = await self.bytes_download(url)
 	# 	await self.bot.upload(b, filename='needsmorejpeg.jpg')
 
-	def do_vw(self, b, txt):
-		im = PIL.Image.open(b)
-		k = random.randint(0, 100)
-		im = macintoshplus.draw_method1(k, txt, im)
-		final = BytesIO()
-		im.save(final, 'png')
-		final.seek(0)
-		return final
+	#def do_vw(self, b, txt):
+	#	im = PIL.Image.open(b)
+	#	k = random.randint(0, 100)
+	#	im = macintoshplus.draw_method1(k, txt, im)
+	#	final = BytesIO()
+	#	im.save(final, 'png')
+	#	final.seek(0)
+	#	return final
 
-	@commands.command(pass_context=True, aliases=['vaporwave', 'vape', 'vapewave'])
-	@commands.cooldown(2, 5)
-	async def vw(self, ctx, url:str, *, txt:str=None):
-		"""Vaporwave an image!"""
-		get_images = await self.get_images(ctx, urls=url, limit=1)
-		if not get_images:
-			return
-		for url in get_images:
-			if txt is None:
-				txt = "vapor wave"
-			b = await self.bytes_download(url)
-			final = await self.bot.loop.run_in_executor(None, self.do_vw, b, txt)
-			await self.bot.send_file(ctx.message.channel, final, filename='vapewave.png')
+	#@commands.command(pass_context=True, aliases=['vaporwave', 'vape', 'vapewave'])
+	#@commands.cooldown(2, 5)
+	#async def vw(self, ctx, url:str, *, txt:str=None):
+	#	"""Vaporwave an image!"""
+	#	get_images = await self.get_images(ctx, urls=url, limit=1)
+	#	if not get_images:
+	#		return
+	#	for url in get_images:
+	#		if txt is None:
+	#			txt = "vapor wave"
+	#		b = await self.bytes_download(url)
+	#		final = await self.bot.loop.run_in_executor(None, self.do_vw, b, txt)
+	#		await self.bot.send_file(ctx.message.channel, final, filename='vapewave.png')
 
 	@commands.command(pass_context=True)
 	async def jagroshisgay(self, ctx, *, txt:str):
